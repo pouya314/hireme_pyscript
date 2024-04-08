@@ -8,5 +8,10 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/up')
+def up():
+    return 'ok'
+
+
 if __name__ == '__main__':
     app.run()
