@@ -8,6 +8,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/hireme')
+def hireme():
+    return "Coming soon!"
+
+
 @app.route('/up')
 def up():
     return 'ok'
