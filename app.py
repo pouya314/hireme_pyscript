@@ -10,7 +10,7 @@ def index():
 
 @app.route('/hireme')
 def hireme():
-    return "Coming soon!"
+    return "Coming (back) soon!"
 
 
 @app.route('/up')
