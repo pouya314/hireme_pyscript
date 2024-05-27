@@ -22,3 +22,7 @@ Deploying FastAPI Apps Over HTTPS with Traefik:
 - code: https://github.com/tiangolo/blog-posts/tree/master/deploying-fastapi-apps-with-https-powered-by-traefik
 - article: https://dev.to/tiangolo/deploying-fastapi-and-other-apps-with-https-powered-by-traefik-5dik
 
+https://anthonynsimon.com/blog/kamal-deploy/
+
+https://beenje.github.io/blog/posts/running-your-application-over-https-with-traefik/
+
