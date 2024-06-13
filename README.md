@@ -26,3 +26,5 @@ https://anthonynsimon.com/blog/kamal-deploy/
 
 https://beenje.github.io/blog/posts/running-your-application-over-https-with-traefik/
 
+PyScript resources:
+- https://sites.google.com/view/pyscript/home
