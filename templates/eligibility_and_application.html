@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head_block %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.7.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.7.1/core.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+        <py-config>
+            packages = [
+                "{{ url_for('static', filename='wheels/pydux-0.2.2-py3-none-any.whl') }}",
+                "requests",
+                "Jinja2"
+            ]
+
+            [[fetch]]
+            files = [
+                "{{ url_for('static', filename='files/eligibility_and_application.py') }}"
+            ]
+        </py-config>
+
+        <py-script>
+                from static.files.eligibility_and_application import test_func
+                test_func()
+        </py-script>
+
+        <div>Coming soon!</div>
+
+{% endblock %}
