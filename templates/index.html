@@ -1,30 +1,24 @@
-<html>
-    <head>
-        <title>Hire Me</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    </head>
+{% extends "base.html" %}
 
-    <body>
-        <py-config>
-            packages = [
-                "{{ url_for('static', filename='wheels/pydux-0.2.2-py3-none-any.whl') }}"
-            ]
-
-            [[fetch]]
-            files = [
-                "{{ url_for('static', filename='files/store.py') }}"
-            ]
-        </py-config>
-
-        <py-script>
-                from static.files.store import store
-                print("loaded!")
-        </py-script>
-
-        <py-repl>
-            store
-        </py-repl>
-    </body>
-</html>
+{% block content %}
+    <h1>Hello, Recruiters!</h1>
+    <p>
+        G'day 👋 <br>
+        You have landed on here because you are probably interested in hiring me 👔 💼 <br>
+        If that's the case, you have come to the right place. My name is Pouya 😎🤠 and I'm a Python 🐍 programmer from
+        Melbourne, Australia 🇦🇺🦘🐨 <br>
+        This is the <mark>only way</mark> to hire me so please do not 📞 📨 📱 🚫 <br>
+        <br>
+        You must follow this process:
+        <table>
+            <tr>
+                <td>Take the <br>Eligibility Test</td>
+                <td style="border: none">&rarr;</td>
+                <td>Submit your <br>Application</td>
+                <td style="border: none">&rarr;</td>
+                <td>Wait to hear back <br>within 48 hours</td>
+            </tr>
+        </table>
+    </p>
+    <a class="button" href="{{ url_for('hireme') }}">Start Eligibility Test (coming soon!)</a>
+{% endblock %}

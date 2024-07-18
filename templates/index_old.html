@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Hire Me</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    </head>
+
+    <body>
+        <py-config>
+            packages = [
+                "{{ url_for('static', filename='wheels/pydux-0.2.2-py3-none-any.whl') }}"
+            ]
+
+            [[fetch]]
+            files = [
+                "{{ url_for('static', filename='files/store.py') }}"
+            ]
+        </py-config>
+
+        <py-script>
+                from static.files.store import store
+                print("loaded!")
+        </py-script>
+
+        <py-repl>
+            store
+        </py-repl>
+    </body>
+</html>
