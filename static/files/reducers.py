@@ -4,7 +4,6 @@ from .constants import INITIAL_STATE
 
 def reducer(state, action):
     print(f'handling action: {action}, state: {state}')
-
     if state is None:
         state = INITIAL_STATE
     if action is None:

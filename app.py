@@ -13,9 +13,9 @@ def hireme():
     return render_template('index.html')
 
 
-@app.route('/eligibility_and_application')
-def eligibility_and_application():
-    return render_template('eligibility_and_application.html', root_url=request.url_root)
+@app.route('/wizard')
+def wizard():
+    return render_template('wizard.html', root_url=request.url_root)
 
 
 @app.route('/up')

@@ -3,8 +3,8 @@ from pyscript import document
 from .helpers import get_root_url
 
 
-def update_user_interface(state):
-    print(f'update_user_interface() called with state: {state}')
+def render_ui(state):
+    print(f'render_ui() called with state: {state}')
     root_url_val = get_root_url()
 
     wizard_element = document.getElementById("wizard-container")

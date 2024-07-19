@@ -33,7 +33,7 @@
 
             [[fetch]]
             files = [
-                "{{ url_for('static', filename='files/eligibility_and_application.py') }}",
+                "{{ url_for('static', filename='files/wizard.py') }}",
                 "{{ url_for('static', filename='files/helpers.py') }}",
                 "{{ url_for('static', filename='files/constants.py') }}",
                 "{{ url_for('static', filename='files/actions.py') }}",
@@ -43,7 +43,7 @@
         </py-config>
 
         <py-script>
-                from static.files.eligibility_and_application import submit_button_clicked
+                from static.files.wizard import submit_button_clicked
         </py-script>
 
         <dialog id="loading">
