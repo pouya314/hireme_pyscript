@@ -32,13 +32,17 @@
 
             [[fetch]]
             files = [
-                "{{ url_for('static', filename='files/eligibility_and_application.py') }}"
+                "{{ url_for('static', filename='files/eligibility_and_application.py') }}",
+                "{{ url_for('static', filename='files/helpers.py') }}",
+                "{{ url_for('static', filename='files/constants.py') }}",
+                "{{ url_for('static', filename='files/actions.py') }}",
+                "{{ url_for('static', filename='files/reducers.py') }}",
+                "{{ url_for('static', filename='files/ui.py') }}"
             ]
         </py-config>
 
         <py-script>
-                from static.files.eligibility_and_application import test_func
-                test_func()
+                from static.files.eligibility_and_application import submit_button_clicked
         </py-script>
 
         <dialog id="loading">
@@ -46,6 +50,20 @@
         </dialog>
 
 
-        <div>Coming soon!</div>
+{#        <button id="new-fact-btn" type="submit" py-click="add_fact">NEW CAT🐱FACT</button>#}
+        <div id="root-url" style="display: none;">{{ root_url }}</div>
+
+        <div id="wizard-container"></div>
+
+
+{#        {% raw %}#}
+{#        <template id="facts-template">#}
+{#            <ul>#}
+{#                {% for fact in cat_facts %}#}
+{#                    <li>{{ fact }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </template>#}
+{#        {% endraw %}#}
 
 {% endblock %}

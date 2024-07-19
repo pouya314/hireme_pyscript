@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ def hireme():
 
 @app.route('/eligibility_and_application')
 def eligibility_and_application():
-    return render_template('eligibility_and_application.html')
+    return render_template('eligibility_and_application.html', root_url=request.url_root)
 
 
 @app.route('/up')
