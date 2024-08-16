@@ -1,20 +1,14 @@
+from jinja2 import Environment, BaseLoader
 from pyscript import document
-
-from .helpers import get_root_url
 
 
 def render_ui(state):
     print(f'render_ui() called with state: {state}')
-    root_url_val = get_root_url()
 
-    wizard_element = document.getElementById("wizard-container")
-    wizard_element.innerHTML = root_url_val
+    wizard_template_string = document.getElementById("wizard-template").innerHTML
 
-    # fact_tpl_element = document.getElementById("facts-template")
-    # fact_tpl_str = fact_tpl_element.innerHTML
-    #
-    # rtemplate = Environment(loader=BaseLoader()).from_string(fact_tpl_str)
-    # rendered_facts = rtemplate.render(**state)
-    #
-    # result_element = document.getElementById("facts-container")
-    # result_element.innerHTML = rendered_facts
+    rtemplate = Environment(loader=BaseLoader()).from_string(wizard_template_string)
+    rendered_html = rtemplate.render(**state)
+
+    wizard_container = document.getElementById("wizard-container")
+    wizard_container.innerHTML = rendered_html

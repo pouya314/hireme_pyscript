@@ -57,14 +57,11 @@
         <div id="wizard-container"></div>
 
 
-{#        {% raw %}#}
-{#        <template id="facts-template">#}
-{#            <ul>#}
-{#                {% for fact in cat_facts %}#}
-{#                    <li>{{ fact }}</li>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-{#        </template>#}
-{#        {% endraw %}#}
+        {% raw %}
+        <template id="wizard-template">
+            <div>No of Eligibility Questions: {{ eligibility_questions|length }}</div>
+            <div>No of Application Questions: {{ application_questions|length }}</div>
+        </template>
+        {% endraw %}
 
 {% endblock %}

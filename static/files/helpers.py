@@ -1,12 +1,10 @@
-from pyscript import document
+import requests
+from pyscript import document, fetch
 
 
 def get_root_url():
     return document.getElementById("root-url").innerHTML
 
 
-# def get_fact_from_remote_api_server():
-#     print('getting new cat fact from remote server')
-#     response = requests.get('https://catfact.ninja/fact')
-#     data = response.json()
-#     return data['fact']
+def get_data(filename):
+    return requests.get(f'{get_root_url()}/static/data/{filename}').json()
