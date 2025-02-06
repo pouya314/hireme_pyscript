@@ -15,7 +15,7 @@ def hireme():
 
 @app.route('/wizard')
 def wizard():
-    return render_template('wizard.html', root_url=request.url_root)
+    return render_template('wizard.html', root_url=request.url_root.replace('http://', 'https://'))
 
 
 @app.route('/up')
