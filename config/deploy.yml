@@ -20,6 +20,7 @@ servers:
 proxy:
   ssl: true
   host: pouya.arvandian.com
+  app_port: 3000
   # Proxy connects to your container on port 80 by default.
   # app_port: 3000
 
