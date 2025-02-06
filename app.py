@@ -15,7 +15,10 @@ def hireme():
 
 @app.route('/wizard')
 def wizard():
-    return render_template('wizard.html', root_url=request.url_root.replace('http://', 'https://'))
+    root_url = request.url_root
+    if request.headers.get('X-Forwarded-Proto') == 'https':
+        root_url = root_url.replace('http://', 'https://')
+    return render_template('wizard.html', root_url=root_url)
 
 
 @app.route('/up')
