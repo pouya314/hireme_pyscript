@@ -3,7 +3,7 @@ from pyscript import document
 
 
 def render_ui(state):
-    print(f'render_ui() called with state: {state}')
+    print(f"render_ui() called with state: {state}")
 
     wizard_template_string = document.getElementById("wizard-template").innerHTML
 

@@ -7,4 +7,4 @@ def get_root_url():
 
 
 def get_data(filename):
-    return requests.get(f'{get_root_url()}static/data/{filename}').json()
+    return requests.get(f"{get_root_url()}static/data/{filename}").json()
