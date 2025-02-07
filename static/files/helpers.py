@@ -1,5 +1,5 @@
 import requests
-from pyscript import document, fetch
+from pyscript import document
 
 
 def get_root_url():

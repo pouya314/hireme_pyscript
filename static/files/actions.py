@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from toolz import get_in, assoc_in
+from toolz import assoc_in
 
 from .helpers import get_data
 
