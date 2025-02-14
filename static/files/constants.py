@@ -1,5 +1,10 @@
 INITIAL_STATE = {
-    "eligibility_questions": [],
-    "application_questions": [],
-    "current_question": {},
+    "questions": ()
 }
+
+QUESTION_CATEGORY_ELIGIBILITY = "eligibility"
+QUESTION_CATEGORY_APPLICATION = "application"
+QUESTION_CATEGORIES = (
+    QUESTION_CATEGORY_ELIGIBILITY, 
+    QUESTION_CATEGORY_APPLICATION
+)
