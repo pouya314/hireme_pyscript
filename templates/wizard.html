@@ -51,7 +51,6 @@
         </dialog>
 
 
-{#        <button id="new-fact-btn" type="submit" py-click="add_fact">NEW CAT🐱FACT</button>#}
         <div id="root-url" style="display: none;">{{ root_url }}</div>
 
         <div id="wizard-container"></div>
@@ -59,12 +58,33 @@
 
         {% raw %}
         <template id="wizard-template">
-            {# You can comment out template code too:
+            {% if current_question %}
+                <form class="question">
+                    <input type="hidden" name="uuid" value="{{ current_question.uuid }}">
+                    <h2 name="body">{{ current_question.body }}</h2>
+                    {% if current_question.question_type == 'drop_down' %}
+                        <select name="provided_answer">
+                            {% for option in current_question.options %}
+                                <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    {% elif current_question.question_type == 'text_field' %}
+                        <input type="text" name="provided_answer">
+                    {% elif current_question.question_type == 'text_area' %}
+                        <textarea name="provided_answer" rows="4" cols="50"></textarea>
+                    {% endif %}
+                    <br>
+                    <button py-click="submit_button_clicked">Submit</button>
+                </form>
+            {% endif %}
+
+
+            {#
             <div>No of Eligibility Questions: {{ eligibility_questions|length }}</div>
             <div>No of Application Questions: {{ application_questions|length }}</div>
             #}
 
-            <h3>Coming Soon. Stay Tuned!</h3>
+            <!-- <h3>Coming Soon. Stay Tuned!</h3> -->
         </template>
         {% endraw %}
 

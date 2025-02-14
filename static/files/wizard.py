@@ -9,4 +9,14 @@ store.dispatch({"type": "INITIALIZE"})
 
 
 def submit_button_clicked(e):
-    store.dispatch({"type": "SUBMIT"})
+    form = e.target.form
+    form_data = {
+        element.name: element.value 
+        for element in form.elements 
+        if element.name
+    }
+    print(f"Form data: {form_data}")
+    store.dispatch({
+        "type": "SUBMIT",
+        "data": form_data
+    })
