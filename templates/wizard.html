@@ -43,7 +43,7 @@
         </py-config>
 
         <py-script>
-                from static.files.wizard import submit_button_clicked
+            from static.files.wizard import submit_button_clicked
         </py-script>
 
         <dialog id="loading">
@@ -58,6 +58,7 @@
 
         {% raw %}
         <template id="wizard-template">
+            {% set current_question = helpers.determine_current_question(questions) %}
             {% if current_question %}
                 <form class="question">
                     <input type="hidden" name="uuid" value="{{ current_question.uuid }}">
@@ -76,6 +77,8 @@
                     <br>
                     <button py-click="submit_button_clicked">Submit</button>
                 </form>
+            {% else %}
+                <p>No current question to show!</p>
             {% endif %}
 
 
