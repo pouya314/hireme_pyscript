@@ -2,7 +2,6 @@
     {
         "uuid": "27505908-a0a7-4874-ab67-24fa5c5a0ebb",
         "question_type": "drop_down",
-        "position": 10,
         "body": "What is the location of this job?",
         "validations": ["required", "is_string"],
         "options": [
@@ -22,7 +21,6 @@
     {
         "uuid": "a3d0ff9d-62f2-428a-9688-1634a9ef2f79",
         "question_type": "drop_down",
-        "position": 20,
         "body": "Is this a Permanent position?",
         "validations": ["required", "is_string"],
         "options": ["Yes", "No"],
@@ -33,7 +31,6 @@
     {
         "uuid": "306ba067-6424-4411-82ed-a187e8226ebc",
         "question_type": "text_field",
-        "position": 30,
         "body": "How much does it pay (in Australian $)?",
         "validations": ["required", "is_decimal"],
         "condition": "gte",
@@ -43,7 +40,6 @@
     {
         "uuid": "a0e3d49b-aae6-4b10-b61c-8f0017917cb8",
         "question_type": "drop_down",
-        "position": 40,
         "body": "Is this a Python role?",
         "validations": ["required", "is_string"],
         "options": ["Yes", "No"],
@@ -54,7 +50,6 @@
     {
         "uuid": "0c2a53dd-6e22-4bb7-a685-310ef2a372e7",
         "question_type": "drop_down",
-        "position": 50,
         "body": "Am I required to do any sysadmin/operations/devops/infrastructure kind of work? (Answer <No> if you use Heroku)",
         "validations": ["required", "is_string"],
         "options": ["Yes", "No"],
@@ -65,7 +60,6 @@
     {
         "uuid": "d3ce9780-b86e-41ed-bd7e-d8bc7455c810",
         "question_type": "drop_down",
-        "position": 60,
         "body": "Do you need me to be a Javascript ninja (beyond jQuery) or a CSS wizard?",
         "validations": ["required", "is_string"],
         "options": ["Yes", "No"],
@@ -76,7 +70,6 @@
     {
         "uuid": "089cdbcc-a79c-48cb-a69b-3496ed9edcca",
         "question_type": "drop_down",
-        "position": 70,
         "body": "Am I required to do any tests for this job?",
         "validations": ["required", "is_string"],
         "options": ["Yes", "No"],
