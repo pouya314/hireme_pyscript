@@ -2,7 +2,7 @@ from . import mappings
 from . import errors
 
 
-def validate(question):
+def perform(question):
     """
     Validate the provided answer against the question's validations.
     """

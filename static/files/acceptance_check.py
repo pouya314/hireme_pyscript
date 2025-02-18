@@ -1,5 +1,5 @@
 from . import mappings
 
 
-def validate(question):
+def perform(question):
     return mappings.Conditions[question['condition']](question)

@@ -47,14 +47,14 @@ def submit_action(state, action):
 
     if the_question.get('validations'):
         the_question["validation_errors"] = []
-        valid, validation_errors = validation_check.validate(the_question)
+        valid, validation_errors = validation_check.perform(the_question)
         if not valid:
             the_question["validation_errors"] = validation_errors
             return state
     
     if the_question.get('condition'):
         the_question["acceptance_errors"] = []
-        accepted, acceptance_error = acceptance_check.validate(the_question)
+        accepted, acceptance_error = acceptance_check.perform(the_question)
         if not accepted:
             the_question["acceptance_errors"].append(acceptance_error)
             return state
