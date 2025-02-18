@@ -4,6 +4,8 @@ from toolz import assoc_in, concat
 
 from .helpers import get_data
 from .constants import QUESTION_CATEGORY_ELIGIBILITY, QUESTION_CATEGORY_APPLICATION
+from . import validation_check
+from . import acceptance_check
 
 
 def initialize_action(state, action):
@@ -43,6 +45,18 @@ def submit_action(state, action):
 
     the_question["provided_answer"] = provided_answer
 
-    # TODO: validate first, then check acceptance criteria
+    if the_question.get('validations'):
+        the_question["validation_errors"] = []
+        valid, validation_errors = validation_check.validate(the_question)
+        if not valid:
+            the_question["validation_errors"] = validation_errors
+            return state
+    
+    if the_question.get('condition'):
+        the_question["acceptance_errors"] = []
+        accepted, acceptance_error = acceptance_check.validate(the_question)
+        if not accepted:
+            the_question["acceptance_errors"].append(acceptance_error)
+            return state
 
     return state

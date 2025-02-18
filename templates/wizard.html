@@ -38,7 +38,13 @@
                 "{{ url_for('static', filename='files/constants.py') }}",
                 "{{ url_for('static', filename='files/actions.py') }}",
                 "{{ url_for('static', filename='files/reducers.py') }}",
-                "{{ url_for('static', filename='files/ui.py') }}"
+                "{{ url_for('static', filename='files/ui.py') }}",
+                "{{ url_for('static', filename='files/errors.py') }}",
+                "{{ url_for('static', filename='files/validations.py') }}",
+                "{{ url_for('static', filename='files/conditions.py') }}",
+                "{{ url_for('static', filename='files/mappings.py') }}",
+                "{{ url_for('static', filename='files/validation_check.py') }}",
+                "{{ url_for('static', filename='files/acceptance_check.py') }}"
             ]
         </py-config>
 
@@ -60,25 +66,43 @@
         <template id="wizard-template">
             {% set current_question = helpers.determine_current_question(questions) %}
             {% if current_question %}
-                <form class="question">
-                    <input type="hidden" name="uuid" value="{{ current_question.uuid }}">
-                    <h2 name="body">{{ current_question.body }}</h2>
-                    {% if current_question.question_type == 'drop_down' %}
+                <h2 name="body">{{ current_question.body }}</h2>
+
+                {% if current_question.acceptance_errors %}
+                    <div>Your answer: {{ current_question.provided_answer }}</div>
+                    <div class="acceptance-errors">
+                        {% for error in current_question.acceptance_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <form class="question">
+                        <input type="hidden" name="uuid" value="{{ current_question.uuid }}">                        
+                        {% if current_question.question_type == 'drop_down' %}
                         <select name="provided_answer">
                             {% for option in current_question.options %}
                                 <option value="{{ option }}">{{ option }}</option>
                             {% endfor %}
                         </select>
-                    {% elif current_question.question_type == 'text_field' %}
-                        <input type="text" name="provided_answer">
-                    {% elif current_question.question_type == 'text_area' %}
-                        <textarea name="provided_answer" rows="4" cols="50"></textarea>
+                        {% elif current_question.question_type == 'text_field' %}
+                            <input type="text" name="provided_answer">
+                        {% elif current_question.question_type == 'text_area' %}
+                            <textarea name="provided_answer" rows="4" cols="50"></textarea>
+                        {% endif %}
+                        <br>
+                        <button py-click="submit_button_clicked">Submit</button>
+                    </form>
+                    {% if current_question.validation_errors %}
+                        <div>Your answer: {{ current_question.provided_answer }}</div>
+                        <div class="validation-errors">
+                            {% for error in current_question.validation_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
                     {% endif %}
-                    <br>
-                    <button py-click="submit_button_clicked">Submit</button>
-                </form>
+                {% endif %}
             {% else %}
-                <p>No current question to show!</p>
+                <p>No current question to show! End of wizard? Email sent?</p>
             {% endif %}
 
 
