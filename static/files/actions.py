@@ -32,8 +32,8 @@ def initialize_action(state, action):
     return state_with_questions_populated
 
 
-def submit_action(state, action):
-    print("performing `submit_action()` on state: {}, and action: {}".format(state, action))
+def submit_answer_action(state, action):
+    print("performing `submit_answer_action()` on state: {}, and action: {}".format(state, action))
     action_data = action["data"]
     question_uuid = action_data["uuid"]
     provided_answer = action_data["provided_answer"]
@@ -60,3 +60,9 @@ def submit_action(state, action):
             return state
 
     return state
+
+
+def submit_application_action(state, action):
+    print("performing `submit_application_action()` on state: {}, and action: {}".format(state, action))
+    # TODO: Implement the logic email the application to myself    
+    return assoc_in(state, ["application_submitted"], True)

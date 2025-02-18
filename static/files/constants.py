@@ -1,5 +1,6 @@
 INITIAL_STATE = {
-    "questions": ()
+    "questions": (),
+    "application_submitted": False
 }
 
 QUESTION_CATEGORY_ELIGIBILITY = "eligibility"
