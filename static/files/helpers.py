@@ -13,8 +13,6 @@ def get_data(filename):
 
 
 def determine_current_question(questions):
-    # if any(question_has_acceptance_errors(question) for question in questions):
-    #     return None
     return next((question for question in questions if is_question_unanswered_or_not_accepted(question)), None)
 
 
