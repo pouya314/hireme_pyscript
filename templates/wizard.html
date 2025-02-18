@@ -18,99 +18,160 @@
         addEventListener('py:ready', () => loading.close());
         loading.showModal();
     </script>
+
+    <!-- Step Wizard style -->
+    <style>
+        .step-wizard {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 30px 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .step {
+            flex: 1;
+            position: relative;
+            background: #f5f5f5;
+            padding: 12px 15px;
+            margin-right: 2px;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+        }
+
+        .step:last-child {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            margin-right: 0;
+        }
+
+        .step:first-child {
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+        }
+
+        .step.active {
+            background: #75b9dd;
+            color: white;
+        }
+
+        .step.completed {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .step.upcoming {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .step-description {
+            font-size: 0.9em;
+            text-align: center;
+        }
+    </style>
 {% endblock %}
 
 
 {% block content %}
 
-        <py-config>
-            packages = [
-                "{{ url_for('static', filename='wheels/pydux-0.2.2-py3-none-any.whl') }}",
-                "requests",
-                "Jinja2",
-                "toolz"
-            ]
+    <py-config>
+        packages = [
+            "{{ url_for('static', filename='wheels/pydux-0.2.2-py3-none-any.whl') }}",
+            "requests",
+            "Jinja2",
+            "toolz"
+        ]
 
-            [[fetch]]
-            files = [
-                "{{ url_for('static', filename='files/wizard.py') }}",
-                "{{ url_for('static', filename='files/helpers.py') }}",
-                "{{ url_for('static', filename='files/constants.py') }}",
-                "{{ url_for('static', filename='files/actions.py') }}",
-                "{{ url_for('static', filename='files/reducers.py') }}",
-                "{{ url_for('static', filename='files/ui.py') }}",
-                "{{ url_for('static', filename='files/errors.py') }}",
-                "{{ url_for('static', filename='files/validations.py') }}",
-                "{{ url_for('static', filename='files/conditions.py') }}",
-                "{{ url_for('static', filename='files/mappings.py') }}",
-                "{{ url_for('static', filename='files/validation_check.py') }}",
-                "{{ url_for('static', filename='files/acceptance_check.py') }}"
-            ]
-        </py-config>
+        [[fetch]]
+        files = [
+            "{{ url_for('static', filename='files/wizard.py') }}",
+            "{{ url_for('static', filename='files/helpers.py') }}",
+            "{{ url_for('static', filename='files/constants.py') }}",
+            "{{ url_for('static', filename='files/actions.py') }}",
+            "{{ url_for('static', filename='files/reducers.py') }}",
+            "{{ url_for('static', filename='files/ui.py') }}",
+            "{{ url_for('static', filename='files/errors.py') }}",
+            "{{ url_for('static', filename='files/validations.py') }}",
+            "{{ url_for('static', filename='files/conditions.py') }}",
+            "{{ url_for('static', filename='files/mappings.py') }}",
+            "{{ url_for('static', filename='files/validation_check.py') }}",
+            "{{ url_for('static', filename='files/acceptance_check.py') }}"
+        ]
+    </py-config>
 
-        <py-script>
-            from static.files.wizard import submit_button_clicked
-        </py-script>
+    <py-script>
+        from static.files.wizard import submit_button_clicked
+    </py-script>
 
-        <dialog id="loading">
-            <h1>Loading...</h1>
-        </dialog>
-
-
-        <div id="root-url" style="display: none;">{{ root_url }}</div>
-
-        <div id="wizard-container"></div>
+    <dialog id="loading">
+        <h1>Loading...</h1>
+    </dialog>
 
 
-        {% raw %}
-        <template id="wizard-template">
-            {% set current_question = helpers.determine_current_question(questions) %}
-            {% if current_question %}
-                <h2 name="body">{{ current_question.body }}</h2>
+    <div id="root-url" style="display: none;">{{ root_url }}</div>
 
-                {% if current_question.acceptance_errors %}
+    <div id="wizard-container"></div>
+
+
+    {% raw %}
+    <template id="wizard-template">
+        <!-- Step Wizard on top of the page -->
+        <div class="step-wizard">
+            <div class="step completed">
+                <div class="step-description">Eligibility Test</div>
+            </div>
+            <div class="step active">
+                <div class="step-description">Application</div>
+            </div>
+            <div class="step upcoming">
+                <div class="step-description">Review & Submit</div>
+            </div>
+        </div>
+
+        <!-- Question form -->
+        {% set current_question = helpers.determine_current_question(questions) %}
+        {% if current_question %}
+            <h4 name="body">{{ current_question.body }}</h4>
+
+            {% if current_question.acceptance_errors %}
+                <div>Your answer: {{ current_question.provided_answer }}</div>
+                <div class="acceptance-errors">
+                    {% for error in current_question.acceptance_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <form class="question">
+                    <input type="hidden" name="uuid" value="{{ current_question.uuid }}">                        
+                    {% if current_question.question_type == 'drop_down' %}
+                    <select name="provided_answer">
+                        {% for option in current_question.options %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    {% elif current_question.question_type == 'text_field' %}
+                        <input type="text" name="provided_answer">
+                    {% elif current_question.question_type == 'text_area' %}
+                        <textarea name="provided_answer" rows="4" cols="50"></textarea>
+                    {% endif %}
+                    <br>
+                    <button py-click="submit_button_clicked">Submit</button>
+                </form>
+                {% if current_question.validation_errors %}
                     <div>Your answer: {{ current_question.provided_answer }}</div>
-                    <div class="acceptance-errors">
-                        {% for error in current_question.acceptance_errors %}
+                    <div class="validation-errors">
+                        {% for error in current_question.validation_errors %}
                             <p>{{ error }}</p>
                         {% endfor %}
                     </div>
-                {% else %}
-                    <form class="question">
-                        <input type="hidden" name="uuid" value="{{ current_question.uuid }}">                        
-                        {% if current_question.question_type == 'drop_down' %}
-                        <select name="provided_answer">
-                            {% for option in current_question.options %}
-                                <option value="{{ option }}">{{ option }}</option>
-                            {% endfor %}
-                        </select>
-                        {% elif current_question.question_type == 'text_field' %}
-                            <input type="text" name="provided_answer">
-                        {% elif current_question.question_type == 'text_area' %}
-                            <textarea name="provided_answer" rows="4" cols="50"></textarea>
-                        {% endif %}
-                        <br>
-                        <button py-click="submit_button_clicked">Submit</button>
-                    </form>
-                    {% if current_question.validation_errors %}
-                        <div>Your answer: {{ current_question.provided_answer }}</div>
-                        <div class="validation-errors">
-                            {% for error in current_question.validation_errors %}
-                                <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
                 {% endif %}
-            {% else %}
-                <p>No current question to show! End of wizard? Email sent?</p>
             {% endif %}
+        {% endif %}
 
 
-            {#
-            <div>No of Eligibility Questions: {{ eligibility_questions|length }}</div>
-            <div>No of Application Questions: {{ application_questions|length }}</div>
-            #}
-        </template>
-        {% endraw %}
+        {#
+        <div>No of Eligibility Questions: {{ eligibility_questions|length }}</div>
+        <div>No of Application Questions: {{ application_questions|length }}</div>
+        #}
+    </template>
+    {% endraw %}
 
 {% endblock %}
