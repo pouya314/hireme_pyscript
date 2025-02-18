@@ -24,6 +24,16 @@ Some helpful Kamal commands:
 
 -------
 
+Load the `.env` file into the shell environment: Before running the `kamal deploy` command, make sure the variables from the `.env` file are available in your shell. You can do this by running:
+
+```export $(grep -v '^#' .env | xargs)```
+
+To confirm secrets are loaded correctly, run:
+
+```kamal secrets print```
+
+-------
+
 # Other
 Deploying FastAPI Apps Over HTTPS with Traefik:
 - video: https://www.youtube.com/watch?v=7N5O62FjGDc
