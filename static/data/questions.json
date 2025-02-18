@@ -50,7 +50,7 @@
     {
         "uuid": "0c2a53dd-6e22-4bb7-a685-310ef2a372e7",
         "question_type": "drop_down",
-        "body": "Am I required to do any sysadmin/operations/devops/infrastructure kind of work? (Answer <No> if you use Heroku)",
+        "body": "Am I required to do any sysadmin/operations/devops/infrastructure kind of work? (Answer No if you use Heroku)",
         "validations": ["required", "is_string"],
         "options": ["Yes", "No"],
         "condition": "equal",
