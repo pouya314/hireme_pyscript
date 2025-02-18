@@ -11,12 +11,12 @@ def required(provided_answer):
 def is_string(provided_answer):
     try:
         str(provided_answer)
-    except Exception as e:
+    except Exception:
         raise ValidationError('This field must be a string.')
 
 
 def is_decimal(provided_answer):
     try:
         Decimal(provided_answer)
-    except Exception as e:
+    except Exception:
         raise ValidationError('This field must be a decimal number.')

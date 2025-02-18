@@ -5,7 +5,7 @@ def any(question):
     accepted = True
     error = None
 
-    if not question['provided_answer'] in question['accepted_answers']:
+    if question['provided_answer'] not in question['accepted_answers']:
         accepted = False
         error = question['message_if_fail']
 
