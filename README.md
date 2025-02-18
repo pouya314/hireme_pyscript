@@ -16,6 +16,14 @@ The -p 3000:3000 option maps port 3000 from the container to port 3000 on your h
 
 -------
 
+Some helpful Kamal commands:
+
+```kamal app containers```
+
+```kamal rollback <VERSION>```
+
+-------
+
 # Other
 Deploying FastAPI Apps Over HTTPS with Traefik:
 - video: https://www.youtube.com/watch?v=7N5O62FjGDc
