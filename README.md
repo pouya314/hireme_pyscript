@@ -20,7 +20,7 @@ Some helpful Kamal commands:
 
 ```kamal app containers```
 
-```kamal rollback <VERSION>```
+```kamal rollback <VERSION>``` (use the version number from the second column)
 
 -------
 
