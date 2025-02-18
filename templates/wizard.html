@@ -24,7 +24,7 @@
         .step-wizard {
             display: flex;
             justify-content: space-between;
-            margin: 0 0 30px 0;
+            margin: 0 0 20px 0;
             position: relative;
             width: 100%;
         }
@@ -33,9 +33,9 @@
             flex: 1;
             position: relative;
             background: #f5f5f5;
-            padding: 12px 15px;
+            padding: 6px 10px;
             margin-right: 2px;
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
         }
 
         .step:last-child {
@@ -44,7 +44,7 @@
         }
 
         .step:first-child {
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
         }
 
         .step.active {
@@ -63,8 +63,10 @@
         }
 
         .step-description {
-            font-size: 0.9em;
+            font-size: 0.75em;
             text-align: center;
+            line-height: 1.2;
+            white-space: nowrap;
         }
     </style>
 {% endblock %}
