@@ -1,8 +1,10 @@
 from typing import List, Dict
 
 from toolz import assoc_in, concat
+import requests
+import json
 
-from .helpers import get_data
+from .helpers import get_data, get_root_url
 from .constants import QUESTION_CATEGORY_ELIGIBILITY, QUESTION_CATEGORY_APPLICATION
 from . import validation_check
 from . import acceptance_check
@@ -64,5 +66,14 @@ def submit_answer_action(state, action):
 
 def submit_application_action(state, action):
     print("performing `submit_application_action()` on state: {}, and action: {}".format(state, action))
-    # TODO: Implement the logic email the application to myself    
+    
+    url = f"{get_root_url()}/submit_application"
+    headers = {'Content-Type': 'application/json'}
+    try:
+        response = requests.post(url, headers=headers, data=json.dumps(state), timeout=30)
+        response.raise_for_status()  # Raises an HTTPError for bad responses (4xx, 5xx)
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to submit application: {str(e)}")
+        return state
+
     return assoc_in(state, ["application_submitted"], True)

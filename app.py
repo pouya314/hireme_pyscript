@@ -1,6 +1,30 @@
+import os
 from flask import Flask, render_template, redirect, url_for, request
+from flask_mail import Mail, Message
+
+
+def str_to_bool(s):
+    if s.lower() == 'true':
+        return True
+    elif s.lower() == 'false':
+        return False
+    else:
+        raise ValueError(f"Cannot convert {s} to a boolean")
+
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['MAIL_SERVER'] = os.environ['MAIL_SERVER']
+app.config['MAIL_PORT'] = int(os.environ['MAIL_PORT'])
+app.config['MAIL_USE_TLS'] = str_to_bool(os.environ['MAIL_USE_TLS'])
+app.config['MAIL_USE_SSL'] = str_to_bool(os.environ['MAIL_USE_SSL'])
+app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
+app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+SENDER = os.environ['MAIL_SENDER']
+RECEIVER = os.environ['MAIL_RECEIVER']
+
+mail = Mail(app)
 
 
 @app.route("/")
@@ -19,6 +43,21 @@ def wizard():
     if request.headers.get("X-Forwarded-Proto") == "https":
         root_url = root_url.replace("http://", "https://")
     return render_template("wizard.html", root_url=root_url)
+
+
+@app.route("/submit_application", methods=["POST"])
+def submit_application():
+    msg = Message('New Job Opportunity Alert', sender=SENDER, recipients=[RECEIVER])
+
+    # TODO: build msg_body
+    msg_body = "test"
+
+    msg.body = msg_body
+
+    with app.app_context():
+        mail.send(msg)
+
+    return "ok"
 
 
 @app.route("/up")
