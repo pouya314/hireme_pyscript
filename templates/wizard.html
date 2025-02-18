@@ -117,13 +117,13 @@
     <template id="wizard-template">
         <!-- Step Wizard on top of the page -->
         <div class="step-wizard">
-            <div class="step completed">
+            <div class="step {{ helpers.eligibility_wizard_step_css_class_name(questions) }}">
                 <div class="step-description">Eligibility Test</div>
             </div>
-            <div class="step active">
+            <div class="step {{ helpers.application_wizard_step_css_class_name(questions) }}">
                 <div class="step-description">Application</div>
             </div>
-            <div class="step upcoming">
+            <div class="step {{ helpers.review_and_submit_wizard_step_css_class_name(questions, application_submitted) }}">
                 <div class="step-description">Review & Submit</div>
             </div>
         </div>
@@ -179,13 +179,13 @@
                 <div class="summary-section">
                     <div class="eligibility-summary" style="font-size: small;">
                         <strong>Eligibility Questions:</strong>
-                        {% for question in helpers.eligibility_questions(questions) %}
+                        {% for question in helpers.find_eligibility_questions(questions) %}
                             <p><i><strong>Q:</strong> {{ question.body }}</i> <br><strong>A:</strong> {{ question.provided_answer }}</p>
                         {% endfor %}
                     </div>
                     <div class="application-summary" style="font-size: small;">
                         <strong>Application Questions:</strong>
-                        {% for question in helpers.application_questions(questions) %}
+                        {% for question in helpers.find_application_questions(questions) %}
                             <p><i><strong>Q:</strong> {{ question.body }}</i> <br><strong>A:</strong> {{ question.provided_answer }}</p>
                         {% endfor %}
                     </div>

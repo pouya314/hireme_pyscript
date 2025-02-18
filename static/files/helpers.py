@@ -38,10 +38,43 @@ def all_questions_answered(questions):
     return all([not is_question_unanswered_or_not_accepted(question) for question in questions])
 
 
-def eligibility_questions(questions):
+def find_eligibility_questions(questions):
     return [question for question in questions if question["category"] == QUESTION_CATEGORY_ELIGIBILITY]
 
 
-def application_questions(questions):
+def find_application_questions(questions):
     return [question for question in questions if question["category"] == QUESTION_CATEGORY_APPLICATION]
 
+
+def eligibility_wizard_step_css_class_name(questions):
+    eligibility_questions = find_eligibility_questions(questions)
+    if all_questions_answered(eligibility_questions):
+        return "completed"
+    
+    current_question = determine_current_question(questions)
+    if current_question and current_question in eligibility_questions:
+        return "active"
+    
+    return "upcoming"
+
+
+def application_wizard_step_css_class_name(questions):
+    application_questions = find_application_questions(questions)
+    if all_questions_answered(application_questions):
+        return "completed"
+    
+    current_question = determine_current_question(questions)
+    if current_question and current_question in application_questions:
+        return "active"
+    
+    return "upcoming"
+
+
+def review_and_submit_wizard_step_css_class_name(questions, application_submitted):
+    if all_questions_answered(questions):
+        if application_submitted:
+            return "completed"
+        else:
+            return "active"            
+    
+    return "upcoming"
