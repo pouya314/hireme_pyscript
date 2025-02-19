@@ -104,7 +104,42 @@
     </py-script>
 
     <dialog id="loading">
-        <h1>Loading...</h1>
+        <div class="loading-animation">
+            <div class="spinner"></div>
+            <h1>Loading...</h1>
+        </div>
+
+        <style>
+            .loading-animation {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .spinner {
+                border: 8px solid #f3f3f3;
+                border-top: 8px solid #3498db;
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            @media (min-width: 600px) {
+                .spinner {
+                    border-width: 16px;
+                    width: 120px;
+                    height: 120px;
+                }
+            }
+        </style>
     </dialog>
 
 
@@ -137,7 +172,7 @@
                 <div>Your answer: {{ current_question.provided_answer }}</div>
                 <div class="acceptance-errors">
                     {% for error in current_question.acceptance_errors %}
-                        <p>{{ error }}</p>
+                            <p>{{ error }}</p>
                     {% endfor %}
                 </div>
             {% else %}
@@ -161,7 +196,7 @@
                     <div>Your answer: {{ current_question.provided_answer }}</div>
                     <div class="validation-errors">
                         {% for error in current_question.validation_errors %}
-                            <p>{{ error }}</p>
+                                <p>{{ error }}</p>
                         {% endfor %}
                     </div>
                 {% endif %}
