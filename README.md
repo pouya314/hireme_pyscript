@@ -12,6 +12,10 @@ This command builds an image named hireme_pyscript based on the Dockerfile in th
 
 ```docker run --env-file ./.env -p 3000:3000 hireme_pyscript```
 
+or combined together:
+
+```docker build -t hireme_pyscript . && docker run --env-file ./.env -p 3000:3000 hireme_pyscript```
+
 The -p 3000:3000 option maps port 3000 from the container to port 3000 on your host machine, allowing you to access the Flask app from your browser at http://localhost:3000/.
 
 -------
