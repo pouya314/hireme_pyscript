@@ -170,9 +170,9 @@
 
             {% if current_question.acceptance_errors %}
                 <div>Your answer: {{ current_question.provided_answer }}</div>
-                <div class="acceptance-errors">
+                <div class="acceptance-errors" style="border: 2px solid red; padding: 5px; background-color: #ffe6e6;">
                     {% for error in current_question.acceptance_errors %}
-                            <p>{{ error }}</p>
+                        <p style="color: red;"><span style="color: red; border: 2px solid red; border-radius: 50%; background-color: white; padding: 2px;">&#10060;</span> {{ error }}</p>
                     {% endfor %}
                 </div>
             {% else %}
@@ -194,10 +194,13 @@
                 </form>
                 {% if current_question.validation_errors %}
                     <div>Your answer: {{ current_question.provided_answer }}</div>
-                    <div class="validation-errors">
-                        {% for error in current_question.validation_errors %}
-                                <p>{{ error }}</p>
-                        {% endfor %}
+                    <div class="validation-errors" style="border: 2px solid  red; padding: 5px; background-color: #ffe6e6;">
+                        <p style="color: red; margin: 0;">Please fix the following errors:</p>
+                        <ul>
+                            {% for error in current_question.validation_errors %}
+                                <li style="color: red; margin: 0;">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 {% endif %}
             {% endif %}
