@@ -175,6 +175,10 @@
                         <p style="color: red;"><span style="color: red; border: 2px solid red; border-radius: 50%; background-color: white; padding: 2px;">&#10060;</span> {{ error }}</p>
                     {% endfor %}
                 </div>
+                <div class="eligibility-fail-message">
+                    <p>Unfortunately, you have failed the eligibility test! Better luck next time.</p>
+                    <p><a href="/hireme" class="back-home-link">&#8592; Back to home page</a></p>
+                </div>
             {% else %}
                 <form class="question">
                     <input type="hidden" name="uuid" value="{{ current_question.uuid }}">                        
