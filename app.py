@@ -47,15 +47,17 @@ def wizard():
 
 @app.route("/submit_application", methods=["POST"])
 def submit_application():
-    msg = Message('New Job Opportunity Alert', sender=SENDER, recipients=[RECEIVER])
+    message = Message('New Job Opportunity Alert', sender=SENDER, recipients=[RECEIVER])
 
-    # TODO: build msg_body
-    msg_body = "test"
+    data = request.get_json()
+    questions = data.get('questions', [])
+    transformed_questions = [f"{question['body']}\n{question['provided_answer']}" for question in questions]
+    message_body = "\n\n".join(transformed_questions)
 
-    msg.body = msg_body
+    message.body = message_body
 
     with app.app_context():
-        mail.send(msg)
+        mail.send(message)
 
     return "ok"
 
