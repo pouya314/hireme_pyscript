@@ -12,6 +12,13 @@ def get_data(filename):
     return requests.get(f"{get_root_url()}static/data/{filename}").json()
 
 
+def nofn(questions, current_question):
+    same_category_questions = [question for question in questions 
+                               if question["category"] == current_question["category"]]
+    idx = same_category_questions.index(current_question)
+    return f"{idx + 1}/{len(same_category_questions)}"
+
+
 def determine_current_question(questions):
     return next((question for question in questions if is_question_unanswered_or_not_accepted(question)), None)
 

@@ -166,7 +166,8 @@
         <!-- Question form -->
         {% set current_question = helpers.determine_current_question(questions) %}
         {% if current_question %}
-            <h4 name="body">{{ current_question.body }}</h4>
+            <p style="font-size: medium; margin: 0px;">({{ helpers.nofn(questions, current_question) }})</p>
+            <h4 name="body" style="margin-top: 0px; margin-bottom: 1em;">{{ current_question.body }}</h4>
 
             {% if current_question.acceptance_errors %}
                 <div>Your answer: {{ current_question.provided_answer }}</div>
@@ -191,7 +192,7 @@
                         <textarea name="provided_answer" rows="4" cols="50"></textarea>
                     {% endif %}
                     <br>
-                    <button py-click="submit_answer_clicked">Submit</button>
+                    <button style="margin-top: 1em;" py-click="submit_answer_clicked">Submit</button>
                 </form>
                 {% if current_question.validation_errors %}
                     <div>Your answer: {{ current_question.provided_answer }}</div>
