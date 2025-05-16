@@ -27,6 +27,15 @@ Some helpful Kamal commands:
 ```kamal rollback <VERSION>``` (use the version number from the second column)
 
 -------
+.kamal/
+├── secrets.common       # Shared secrets
+├── secrets.staging      # Staging-specific secrets
+└── secrets.production   # Production-specific secrets
+config/
+├── deploy.yml           # Base config
+├── deploy.staging.yml   # Staging overrides
+└── deploy.production.yml # Production overrides
+
 
 Load the `.env` file into the shell environment: Before running the `kamal deploy` command, make sure the variables from the `.env` file are available in your shell. You can do this by running:
 
