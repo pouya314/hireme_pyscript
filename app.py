@@ -23,6 +23,7 @@ app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
 app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
 SENDER = os.environ['MAIL_SENDER']
 RECEIVER = os.environ['MAIL_RECEIVER']
+ENVIRONMENT_NAME = os.environ['ENVIRONMENT_NAME']
 
 mail = Mail(app)
 
@@ -34,7 +35,8 @@ def index():
 
 @app.route("/hireme")
 def hireme():
-    return render_template("index.html")
+    return render_template("index.html",
+                           environment_name=ENVIRONMENT_NAME)
 
 
 @app.route("/wizard")
@@ -42,7 +44,9 @@ def wizard():
     root_url = request.url_root
     if request.headers.get("X-Forwarded-Proto") == "https":
         root_url = root_url.replace("http://", "https://")
-    return render_template("wizard.html", root_url=root_url)
+    return render_template("wizard.html",
+                           root_url=root_url,
+                           environment_name=ENVIRONMENT_NAME)
 
 
 @app.route("/submit_application", methods=["POST"])

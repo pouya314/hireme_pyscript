@@ -10,6 +10,11 @@
     </head>
 
     <body>
+        {% if environment_name and environment_name != "Production" %}
+            <div style="background-color: green; color: white; padding: 10px; text-align: center; font-weight: bold;">
+                This is the {{ environment_name }} environment
+            </div>
+        {% endif %}
         <header style="margin: 0; padding: 0;">
             <nav style="margin: 0">
                 <a href="{{ url_for('index') }}">Home</a>
