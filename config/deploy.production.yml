@@ -1,0 +1,8 @@
+servers:
+  web:
+    - 139.84.192.8
+
+proxy:
+  ssl: true
+  host: pouya.arvandian.com
+  app_port: 3000

@@ -5,3 +5,5 @@ echo "Printing Kamal Secrets on the screen"
 kamal secrets print
 
 echo "Deploying to Staging"
+#kamal setup -d staging
+kamal deploy -d staging

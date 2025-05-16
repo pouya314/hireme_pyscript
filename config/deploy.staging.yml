@@ -1,0 +1,6 @@
+servers:
+  web:
+    - 0.0.0.0
+
+proxy:
+  app_port: 3000
