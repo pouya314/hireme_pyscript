@@ -1,6 +1,6 @@
 servers:
   web:
-    - 0.0.0.0
+    - 139.84.194.227
 
 proxy:
   app_port: 3000
