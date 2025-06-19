@@ -1,6 +1,6 @@
 servers:
   web:
-    - 139.84.192.8
+    - 139.84.194.147
 
 proxy:
   ssl: true
