@@ -26,5 +26,9 @@
         <main>
             {% block content %}{% endblock %}
         </main>
+
+        <footer style="text-align: center; padding: 20px; color: #666; font-size: 0.9em;">
+            <p>Version: {{ g.git_version.version }}</p>
+        </footer>
     </body>
 </html>

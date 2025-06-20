@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, g
 from flask_mail import Mail, Message
+import git
 
 
 def str_to_bool(s):
@@ -10,6 +11,24 @@ def str_to_bool(s):
         return False
     else:
         raise ValueError(f"Cannot convert {s} to a boolean")
+
+
+def get_git_version():
+    """Get the current git commit hash using GitPython"""
+    try:
+        repo = git.Repo(search_parent_directories=True)
+        commit = repo.head.commit
+        return {
+            'full_hash': commit.hexsha,
+            'short_hash': commit.hexsha[:12],
+            'version': commit.hexsha[:12]
+        }
+    except (git.InvalidGitRepositoryError, git.GitCommandError):
+        return {
+            'full_hash': 'unknown',
+            'short_hash': 'unknown',
+            'version': 'unknown'
+        }
 
 
 app = Flask(__name__)
@@ -26,6 +45,12 @@ RECEIVER = os.environ['MAIL_RECEIVER']
 ENVIRONMENT_NAME = os.environ['ENVIRONMENT_NAME']
 
 mail = Mail(app)
+
+
+@app.before_request
+def before_request():
+    """Add git version to all templates"""
+    g.git_version = get_git_version()
 
 
 @app.route("/")
