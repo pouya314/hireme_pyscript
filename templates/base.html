@@ -10,9 +10,9 @@
     </head>
 
     <body>
-        {% if environment_name and environment_name != "Production" %}
+        {% if g.environment_name and g.environment_name != "Production" %}
             <div style="background-color: red; color: white; padding: 10px; text-align: center; font-weight: bold; width: 100vw; margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); box-sizing: border-box;">
-                This is the {{ environment_name }} environment
+                This is the {{ g.environment_name }} environment
             </div>
         {% endif %}
         <header style="margin: 0; padding: 0;">

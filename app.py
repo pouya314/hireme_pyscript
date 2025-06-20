@@ -51,6 +51,7 @@ mail = Mail(app)
 def before_request():
     """Add git version to all templates"""
     g.git_version = get_git_version()
+    g.environment_name = ENVIRONMENT_NAME
 
 
 @app.route("/")
@@ -60,8 +61,7 @@ def index():
 
 @app.route("/hireme")
 def hireme():
-    return render_template("index.html",
-                           environment_name=ENVIRONMENT_NAME)
+    return render_template("index.html")
 
 
 @app.route("/wizard")
@@ -69,9 +69,7 @@ def wizard():
     root_url = request.url_root
     if request.headers.get("X-Forwarded-Proto") == "https":
         root_url = root_url.replace("http://", "https://")
-    return render_template("wizard.html",
-                           root_url=root_url,
-                           environment_name=ENVIRONMENT_NAME)
+    return render_template("wizard.html", root_url=root_url)
 
 
 @app.route("/submit_application", methods=["POST"])
