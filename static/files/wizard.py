@@ -151,7 +151,7 @@ Conditions = {
 # ##############################
 # #       Validation Check     #
 # ##############################
-def perform(question):
+def perform_validation_check(question):
     """
     Validate the provided answer against the question's validations.
     """
@@ -172,7 +172,7 @@ def perform(question):
 # ##############################
 # #       Acceptance Check     #
 # ##############################
-def perform(question):
+def perform_acceptance_check(question):
     return Conditions[question['condition']](question)
 # ##############################
 
@@ -314,14 +314,14 @@ def submit_answer_action(state, action):
 
     if the_question.get('validations'):
         the_question["validation_errors"] = []
-        valid, validation_errors = perform(the_question)
+        valid, validation_errors = perform_validation_check(the_question)
         if not valid:
             the_question["validation_errors"] = validation_errors
             return state
     
     if the_question.get('condition'):
         the_question["acceptance_errors"] = []
-        accepted, acceptance_error = perform(the_question)
+        accepted, acceptance_error = perform_acceptance_check(the_question)
         if not accepted:
             the_question["acceptance_errors"].append(acceptance_error)
             return state
