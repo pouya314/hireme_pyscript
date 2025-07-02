@@ -29,11 +29,13 @@ QUESTION_CATEGORIES = (
 VALIDATIONS_REQUIRED = 'required'
 VALIDATIONS_IS_STRING = 'is_string'
 VALIDATIONS_IS_DECIMAL = 'is_decimal'
+VALIDATIONS_IS_EMAIL = 'is_email'
 
 VALIDATIONS = (
     VALIDATIONS_REQUIRED,
     VALIDATIONS_IS_STRING,
-    VALIDATIONS_IS_DECIMAL
+    VALIDATIONS_IS_DECIMAL,
+    VALIDATIONS_IS_EMAIL
 )
 
 CONDITIONS_ANY = 'any'
@@ -122,6 +124,13 @@ def is_decimal(provided_answer):
         Decimal(provided_answer)
     except Exception:
         raise ValidationError('This field must be a decimal number.')
+
+
+def is_email(provided_answer):
+    import re
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(email_pattern, str(provided_answer)):
+        raise ValidationError('This field must be a valid email address.')
 # ##############################
 
 
@@ -134,7 +143,8 @@ def is_decimal(provided_answer):
 Validations = {
     VALIDATIONS_REQUIRED: required,
     VALIDATIONS_IS_STRING: is_string,
-    VALIDATIONS_IS_DECIMAL: is_decimal
+    VALIDATIONS_IS_DECIMAL: is_decimal,
+    VALIDATIONS_IS_EMAIL: is_email
 }
 
 Conditions = {
