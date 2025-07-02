@@ -7,6 +7,7 @@ from pyscript import document
 import pydux
 import requests
 from toolz import assoc_in, concat
+from email_validator import validate_email, EmailNotValidError
 
 
 
@@ -127,9 +128,10 @@ def is_decimal(provided_answer):
 
 
 def is_email(provided_answer):
-    import re
-    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    if not re.match(email_pattern, str(provided_answer)):
+    try:
+        # This validates the email format and also checks for common issues
+        validate_email(str(provided_answer), check_deliverability=False)
+    except EmailNotValidError as e:
         raise ValidationError('This field must be a valid email address.')
 # ##############################
 
