@@ -7,6 +7,7 @@ from pyscript import document
 import pydux
 import requests
 from toolz import assoc_in, concat
+from email_validator import validate_email, EmailNotValidError
 
 
 
@@ -29,11 +30,13 @@ QUESTION_CATEGORIES = (
 VALIDATIONS_REQUIRED = 'required'
 VALIDATIONS_IS_STRING = 'is_string'
 VALIDATIONS_IS_DECIMAL = 'is_decimal'
+VALIDATIONS_IS_EMAIL = 'is_email'
 
 VALIDATIONS = (
     VALIDATIONS_REQUIRED,
     VALIDATIONS_IS_STRING,
-    VALIDATIONS_IS_DECIMAL
+    VALIDATIONS_IS_DECIMAL,
+    VALIDATIONS_IS_EMAIL
 )
 
 CONDITIONS_ANY = 'any'
@@ -122,6 +125,14 @@ def is_decimal(provided_answer):
         Decimal(provided_answer)
     except Exception:
         raise ValidationError('This field must be a decimal number.')
+
+
+def is_email(provided_answer):
+    try:
+        # This validates the email format and also checks for common issues
+        validate_email(str(provided_answer), check_deliverability=False)
+    except EmailNotValidError as e:
+        raise ValidationError('This field must be a valid email address.')
 # ##############################
 
 
@@ -134,7 +145,8 @@ def is_decimal(provided_answer):
 Validations = {
     VALIDATIONS_REQUIRED: required,
     VALIDATIONS_IS_STRING: is_string,
-    VALIDATIONS_IS_DECIMAL: is_decimal
+    VALIDATIONS_IS_DECIMAL: is_decimal,
+    VALIDATIONS_IS_EMAIL: is_email
 }
 
 Conditions = {

@@ -15,7 +15,7 @@
         "uuid": "456789ab-cdef-4567-89ab-cdef01234567",
         "question_type": "text_field",
         "body": "Your email address?",
-        "validations": ["required"]
+        "validations": ["required", "is_email"]
     },
     {
         "uuid": "789abcde-f012-4567-89ab-cdef01234567",
