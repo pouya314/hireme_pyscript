@@ -133,7 +133,7 @@ def is_email(provided_answer):
     try:
         # This validates the email format and also checks for common issues
         validate_email(str(provided_answer), check_deliverability=False)
-    except EmailNotValidError as e:
+    except EmailNotValidError:
         raise ValidationError('This field must be a valid email address.')
 
 
