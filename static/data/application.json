@@ -9,7 +9,7 @@
         "uuid": "987fcdeb-51a2-43d7-9012-345678901234",
         "question_type": "text_field",
         "body": "Your phone number?",
-        "validations": ["required"]
+        "validations": ["required", "is_phone_number"]
     },
     {
         "uuid": "456789ab-cdef-4567-89ab-cdef01234567",

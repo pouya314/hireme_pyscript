@@ -8,6 +8,7 @@ import pydux
 import requests
 from toolz import assoc_in, concat
 from email_validator import validate_email, EmailNotValidError
+import phonenumbers
 
 
 
@@ -31,6 +32,7 @@ VALIDATIONS_REQUIRED = 'required'
 VALIDATIONS_IS_STRING = 'is_string'
 VALIDATIONS_IS_DECIMAL = 'is_decimal'
 VALIDATIONS_IS_EMAIL = 'is_email'
+VALIDATIONS_IS_PHONE_NUMBER = 'is_phone_number'
 
 VALIDATIONS = (
     VALIDATIONS_REQUIRED,
@@ -133,6 +135,16 @@ def is_email(provided_answer):
         validate_email(str(provided_answer), check_deliverability=False)
     except EmailNotValidError as e:
         raise ValidationError('This field must be a valid email address.')
+
+
+def is_phone_number(provided_answer):
+    error_message = 'This field must be a valid phone number.'
+    try:
+        parsed_number = phonenumbers.parse(provided_answer, "AU")
+        if not phonenumbers.is_valid_number(parsed_number):
+            raise ValidationError(error_message)
+    except phonenumbers.phonenumberutil.NumberParseException:
+        raise ValidationError(error_message)
 # ##############################
 
 
@@ -146,7 +158,8 @@ Validations = {
     VALIDATIONS_REQUIRED: required,
     VALIDATIONS_IS_STRING: is_string,
     VALIDATIONS_IS_DECIMAL: is_decimal,
-    VALIDATIONS_IS_EMAIL: is_email
+    VALIDATIONS_IS_EMAIL: is_email,
+    VALIDATIONS_IS_PHONE_NUMBER: is_phone_number
 }
 
 Conditions = {
