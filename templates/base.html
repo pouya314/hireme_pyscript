@@ -2,11 +2,34 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+        <!-- iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Hire Pouya!">
+        <meta name="theme-color" content="#000000">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+
         <title>Hire Pouya!</title>
         {% block head_block %}
             <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
         {% endblock %}
+        <style>
+            @supports (padding: env(safe-area-inset-top)) {
+                body {
+                    padding-top: constant(safe-area-inset-top);
+                    padding-right: constant(safe-area-inset-right);
+                    padding-bottom: constant(safe-area-inset-bottom);
+                    padding-left: constant(safe-area-inset-left);
+                    padding-top: env(safe-area-inset-top);
+                    padding-right: env(safe-area-inset-right);
+                    padding-bottom: env(safe-area-inset-bottom);
+                    padding-left: env(safe-area-inset-left);
+                }
+            }
+        </style>
     </head>
 
     <body>
