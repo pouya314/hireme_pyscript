@@ -89,6 +89,12 @@ def submit_application():
     return "ok"
 
 
+@app.route("/parisadoyouloveme")
+@app.route("/ParisaDoYouLoveMe")
+def parisadoyouloveme():
+    return render_template("parisadoyouloveme.html")
+
+
 @app.route("/up")
 def up():
     return "ok"

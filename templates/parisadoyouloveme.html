@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .love-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        text-align: center;
+        user-select: none;
+    }
+
+    .love-question {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .buttons-area {
+        position: relative;
+        width: 100%;
+        height: 200px;
+    }
+
+    .btn-yes, .btn-no {
+        padding: 1rem 2.5rem;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s ease;
+    }
+
+    .btn-yes {
+        background-color: #4CAF50;
+        color: white;
+        position: absolute;
+    }
+
+    .btn-yes.big {
+        animation: throb 0.3s ease-in-out infinite;
+    }
+
+    @keyframes throb {
+        0%, 100% { transform: scale(2); }
+        50% { transform: scale(2.2); }
+    }
+
+    .btn-no {
+        background-color: #f44336;
+        color: white;
+        position: absolute;
+    }
+</style>
+
+<div class="love-container" id="mobileMessage" style="display:none;">
+    <h1 class="love-question">Please open this website on a desktop computer with a mouse.</h1>
+</div>
+
+<div class="love-container" id="desktopContent" style="display:none;">
+    <h1 class="love-question">Parisa, do you love me?</h1>
+    <div class="buttons-area" id="buttonsArea">
+        <button class="btn-yes" id="btnYes" onclick="yesClicked()">YES</button>
+        <button class="btn-no" id="btnNo">NO</button>
+    </div>
+    <div id="result" style="display:none; font-size: 2rem; margin-top: 2rem;"></div>
+</div>
+
+<script>
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window && window.matchMedia('(max-width: 1024px)').matches);
+    if (isMobile) {
+        document.getElementById('mobileMessage').style.display = '';
+    } else {
+        document.getElementById('desktopContent').style.display = '';
+    }
+</script>
+
+<script>
+(function() {
+    const btnNo = document.getElementById('btnNo');
+    const btnYes = document.getElementById('btnYes');
+    const buttonsArea = document.getElementById('buttonsArea');
+    let hasRunAway = false;
+    const PROXIMITY = 150;
+    const FLEE_DISTANCE = 150;
+
+    // Prevent clicking the NO button
+    btnNo.addEventListener('click', function(e) { e.preventDefault(); });
+    btnNo.addEventListener('mousedown', function(e) { e.preventDefault(); });
+    btnNo.style.pointerEvents = 'none';
+
+    // Position both buttons centered side by side
+    function initButtons() {
+        const areaRect = buttonsArea.getBoundingClientRect();
+        const yesW = btnYes.offsetWidth;
+        const yesH = btnYes.offsetHeight;
+        const noW = btnNo.offsetWidth;
+        const noH = btnNo.offsetHeight;
+        const gap = 32;
+        const totalW = yesW + gap + noW;
+        const startX = (areaRect.width - totalW) / 2;
+        const yesTop = (areaRect.height - yesH) / 2;
+        const noTop = (areaRect.height - noH) / 2;
+
+        btnYes.style.left = startX + 'px';
+        btnYes.style.top = yesTop + 'px';
+        btnNo.style.left = (startX + yesW + gap) + 'px';
+        btnNo.style.top = noTop + 'px';
+    }
+
+    initButtons();
+
+    function fleeFromPoint(clientX, clientY) {
+        const areaRect = buttonsArea.getBoundingClientRect();
+        const btnRect = btnNo.getBoundingClientRect();
+
+        const btnCenterX = btnRect.left + btnRect.width / 2;
+        const btnCenterY = btnRect.top + btnRect.height / 2;
+
+        const dx = btnCenterX - clientX;
+        const dy = btnCenterY - clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < PROXIMITY) {
+            let angle = Math.atan2(dy, dx);
+            // If mouse is right on top, pick a random direction
+            if (distance < 5) {
+                angle = Math.random() * Math.PI * 2;
+            }
+            let newLeft = (btnRect.left - areaRect.left) + Math.cos(angle) * FLEE_DISTANCE;
+            let newTop = (btnRect.top - areaRect.top) + Math.sin(angle) * FLEE_DISTANCE;
+
+            // Clamp within the buttons area
+            const maxLeft = areaRect.width - btnRect.width;
+            const maxTop = areaRect.height - btnRect.height;
+            newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+            newTop = Math.max(0, Math.min(newTop, maxTop));
+
+            // If clamped position is still too close to mouse, try opposite direction
+            const newCenterX = areaRect.left + newLeft + btnRect.width / 2;
+            const newCenterY = areaRect.top + newTop + btnRect.height / 2;
+            const newDist = Math.sqrt((newCenterX - clientX) ** 2 + (newCenterY - clientY) ** 2);
+            if (newDist < PROXIMITY * 0.6) {
+                angle += Math.PI;
+                newLeft = (btnRect.left - areaRect.left) + Math.cos(angle) * FLEE_DISTANCE;
+                newTop = (btnRect.top - areaRect.top) + Math.sin(angle) * FLEE_DISTANCE;
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+            }
+
+            btnNo.style.left = newLeft + 'px';
+            btnNo.style.top = newTop + 'px';
+
+            if (!hasRunAway) {
+                hasRunAway = true;
+                btnYes.classList.add('big');
+            }
+        }
+    }
+
+    // Use requestAnimationFrame polling to track mouse even when moving fast
+    let mouseX = -9999, mouseY = -9999;
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function tick() {
+        fleeFromPoint(mouseX, mouseY);
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // Also handle touch for mobile
+    document.addEventListener('touchmove', function(e) {
+        const touch = e.touches[0];
+        fleeFromPoint(touch.clientX, touch.clientY);
+    });
+})();
+
+function yesClicked() {
+    document.getElementById('btnNo').style.display = 'none';
+    const btnYes = document.getElementById('btnYes');
+    btnYes.classList.remove('big');
+    btnYes.style.transform = 'scale(2)';
+    const result = document.getElementById('result');
+    result.style.display = 'block';
+    result.textContent = 'I knew it! \u2764\ufe0f';
+}
+</script>
+{% endblock %}
