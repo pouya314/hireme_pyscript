@@ -33,6 +33,7 @@ VALIDATIONS_IS_STRING = 'is_string'
 VALIDATIONS_IS_DECIMAL = 'is_decimal'
 VALIDATIONS_IS_EMAIL = 'is_email'
 VALIDATIONS_IS_PHONE_NUMBER = 'is_phone_number'
+VALIDATIONS_NO_PROFANITY = 'no_profanity'
 
 VALIDATIONS = (
     VALIDATIONS_REQUIRED,
@@ -145,6 +146,14 @@ def is_phone_number(provided_answer):
             raise ValidationError(error_message)
     except phonenumbers.phonenumberutil.NumberParseException:
         raise ValidationError(error_message)
+
+
+def no_profanity(provided_answer):
+    profane_words = ['fuck', 'shit', 'ass', 'bitch', 'damn', 'crap', 'dick', 'piss', 'bastard', 'cunt']
+    answer_lower = str(provided_answer).lower()
+    found = [word for word in profane_words if word in answer_lower]
+    if found:
+        raise ValidationError('Please avoid using profanity in your response. Detected: ' + ', '.join(found))
 # ##############################
 
 
@@ -159,7 +168,8 @@ Validations = {
     VALIDATIONS_IS_STRING: is_string,
     VALIDATIONS_IS_DECIMAL: is_decimal,
     VALIDATIONS_IS_EMAIL: is_email,
-    VALIDATIONS_IS_PHONE_NUMBER: is_phone_number
+    VALIDATIONS_IS_PHONE_NUMBER: is_phone_number,
+    VALIDATIONS_NO_PROFANITY: no_profanity
 }
 
 Conditions = {

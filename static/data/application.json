@@ -3,66 +3,66 @@
         "uuid": "123e4567-e89b-12d3-a456-426614174000",
         "question_type": "text_field",
         "body": "What is your name?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "987fcdeb-51a2-43d7-9012-345678901234",
         "question_type": "text_field",
         "body": "Your phone number?",
-        "validations": ["required", "is_phone_number"]
+        "validations": ["required", "is_phone_number", "no_profanity"]
     },
     {
         "uuid": "456789ab-cdef-4567-89ab-cdef01234567",
         "question_type": "text_field",
         "body": "Your email address?",
-        "validations": ["required", "is_email"]
+        "validations": ["required", "is_email", "no_profanity"]
     },
     {
         "uuid": "789abcde-f012-4567-89ab-cdef01234567",
         "question_type": "text_field",
         "body": "What is the name of the company hiring?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "abcdef01-2345-6789-abcd-ef0123456789",
         "question_type": "text_area",
         "body": "How long has this position been empty? And why?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "bcdef012-3456-789a-bcde-f0123456789a",
         "question_type": "text_area",
         "body": "Tell me more about the project(s) I will be working on. (Include as much technical details/requirements as you can please)",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "cdef0123-4567-89ab-cdef-0123456789ab",
         "question_type": "text_area",
         "body": "Describe your company culture?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "def01234-5678-9abc-def0-123456789abc",
         "question_type": "text_area",
         "body": "Tell me more about the people/teams I will be working with?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "ef012345-6789-abcd-ef01-23456789abcd",
         "question_type": "text_area",
         "body": "What is the company policy on remote work and flexible hours?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "f0123456-789a-bcde-f012-3456789abcde",
         "question_type": "text_area",
         "body": "What's the work-life balance like?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     },
     {
         "uuid": "01234567-89ab-cdef-0123-456789abcdef",
         "question_type": "text_area",
         "body": "Describe a bad day at your company?",
-        "validations": ["required"]
+        "validations": ["required", "no_profanity"]
     }
 ]
