@@ -10,9 +10,6 @@ from toolz import assoc_in, concat
 from email_validator import validate_email, EmailNotValidError
 import phonenumbers
 
-
-
-
 # ##############################
 # #         Constants          #
 # ##############################
@@ -24,7 +21,7 @@ INITIAL_STATE = {
 QUESTION_CATEGORY_ELIGIBILITY = "eligibility"
 QUESTION_CATEGORY_APPLICATION = "application"
 QUESTION_CATEGORIES = (
-    QUESTION_CATEGORY_ELIGIBILITY, 
+    QUESTION_CATEGORY_ELIGIBILITY,
     QUESTION_CATEGORY_APPLICATION
 )
 
@@ -55,16 +52,12 @@ CONDITIONS = (
 
 
 
-
-
 # ##############################
 # #          Errors           #
 # ##############################
 class ValidationError(Exception):
     pass
 # ##############################
-
-
 
 
 
@@ -103,8 +96,6 @@ def gte(question):
 
     return accepted, error
 # ##############################
-
-
 
 
 
@@ -158,8 +149,6 @@ def no_profanity(provided_answer):
 
 
 
-
-
 # ##############################
 # #          Mappings          #
 # ##############################
@@ -178,8 +167,6 @@ Conditions = {
     CONDITIONS_GTE: gte
 }
 # ##############################
-
-
 
 
 
@@ -202,16 +189,12 @@ def perform_validation_check(question):
 
 
 
-
-
 # ##############################
 # #       Acceptance Check     #
 # ##############################
 def perform_acceptance_check(question):
     return Conditions[question['condition']](question)
 # ##############################
-
-
 
 
 
@@ -229,7 +212,7 @@ class Helpers:
 
     @staticmethod
     def nofn(questions, current_question):
-        same_category_questions = [question for question in questions 
+        same_category_questions = [question for question in questions
                                    if question["category"] == current_question["category"]]
         idx = same_category_questions.index(current_question)
         return f"{idx + 1}/{len(same_category_questions)}"
@@ -240,8 +223,8 @@ class Helpers:
 
     @staticmethod
     def is_question_unanswered_or_not_accepted(question):
-        return (Helpers.question_encountered_first_time(question) or 
-                Helpers.question_has_validation_errors(question) or 
+        return (Helpers.question_encountered_first_time(question) or
+                Helpers.question_has_validation_errors(question) or
                 Helpers.question_has_acceptance_errors(question))
 
     @staticmethod
@@ -273,11 +256,11 @@ class Helpers:
         eligibility_questions = Helpers.find_eligibility_questions(questions)
         if Helpers.all_questions_answered(eligibility_questions):
             return "completed"
-        
+
         current_question = Helpers.determine_current_question(questions)
         if current_question and current_question in eligibility_questions:
             return "active"
-        
+
         return "upcoming"
 
     @staticmethod
@@ -285,11 +268,11 @@ class Helpers:
         application_questions = Helpers.find_application_questions(questions)
         if Helpers.all_questions_answered(application_questions):
             return "completed"
-        
+
         current_question = Helpers.determine_current_question(questions)
         if current_question and current_question in application_questions:
             return "active"
-        
+
         return "upcoming"
 
     @staticmethod
@@ -298,12 +281,10 @@ class Helpers:
             if application_submitted:
                 return "completed"
             else:
-                return "active"            
-        
+                return "active"
+
         return "upcoming"
 # ##############################
-
-
 
 
 
@@ -311,14 +292,14 @@ class Helpers:
 # #          Actions           #
 # ##############################
 def initialize_action(state, action):
-    print("performing `initialize_action()` on state: {}".format(state))
+    # print("performing `initialize_action()` on state: {}".format(state))
 
     eligibility_questions: List[Dict] = [
-        assoc_in(question, ["category"], QUESTION_CATEGORY_ELIGIBILITY) 
+        assoc_in(question, ["category"], QUESTION_CATEGORY_ELIGIBILITY)
         for question in Helpers.get_data("questions.json")
     ]
     application_questions: List[Dict] = [
-        assoc_in(question, ["category"], QUESTION_CATEGORY_APPLICATION) 
+        assoc_in(question, ["category"], QUESTION_CATEGORY_APPLICATION)
         for question in Helpers.get_data("application.json")
     ]
 
@@ -335,14 +316,14 @@ def initialize_action(state, action):
 
 
 def submit_answer_action(state, action):
-    print("performing `submit_answer_action()` on state: {}, and action: {}".format(state, action))
+    # print("performing `submit_answer_action()` on state: {}, and action: {}".format(state, action))
     action_data = action["data"]
     question_uuid = action_data["uuid"]
     provided_answer = action_data["provided_answer"]
 
     the_question = next((question for question in state["questions"] if question["uuid"] == question_uuid), None)
     if the_question is None:
-        print("Question not found in eligibility or application questions")
+        # print("Question not found in eligibility or application questions")
         return state
 
     the_question["provided_answer"] = provided_answer
@@ -353,7 +334,7 @@ def submit_answer_action(state, action):
         if not valid:
             the_question["validation_errors"] = validation_errors
             return state
-    
+
     if the_question.get('condition'):
         the_question["acceptance_errors"] = []
         accepted, acceptance_error = perform_acceptance_check(the_question)
@@ -365,15 +346,14 @@ def submit_answer_action(state, action):
 
 
 def submit_application_action(state, action):
-    print("performing `submit_application_action()` on state: {}, and action: {}".format(state, action))
-    
+    # print("performing `submit_application_action()` on state: {}, and action: {}".format(state, action))
     url = f"{Helpers.get_root_url()}/submit_application"
     headers = {'Content-Type': 'application/json'}
     try:
         response = requests.post(url, headers=headers, data=json.dumps(state), timeout=30)
         response.raise_for_status()  # Raises an HTTPError for bad responses (4xx, 5xx)
     except requests.exceptions.RequestException as e:
-        print(f"Failed to submit application: {str(e)}")
+        # print(f"Failed to submit application: {str(e)}")
         return state
 
     return assoc_in(state, ["application_submitted"], True)
@@ -381,13 +361,11 @@ def submit_application_action(state, action):
 
 
 
-
-
 # ##############################
 # #          Reducers          #
 # ##############################
 def reducer(state, action):
-    print(f"handling action: {action}, state: {state}")
+    # print(f"handling action: {action}, state: {state}")
     if state is None:
         state = INITIAL_STATE
     if action is None:
@@ -398,11 +376,9 @@ def reducer(state, action):
         return submit_answer_action(state, action)
     elif action["type"] == "SUBMIT_APPLICATION":
         return submit_application_action(state, action)
-    print(f"Action handler returning state: {state}")
+    # print(f"Action handler returning state: {state}")
     return state
 # ##############################
-
-
 
 
 
@@ -410,8 +386,7 @@ def reducer(state, action):
 # #          UI Renderer       #
 # ##############################
 def render_ui(state):
-    print(f"render_ui() called with state: {state}")
-
+    # print(f"render_ui() called with state: {state}")
     wizard_template_string = document.getElementById("wizard-template").innerHTML
 
     rtemplate = Environment(loader=BaseLoader()).from_string(wizard_template_string)
@@ -423,8 +398,6 @@ def render_ui(state):
 
 
 
-
-
 # ##############################
 # #        Pydux Store         #
 # ##############################
@@ -432,15 +405,16 @@ store = pydux.create_store(reducer)
 store.subscribe(lambda: render_ui(store.get_state()))
 store.dispatch({"type": "INITIALIZE"})
 
+
 def submit_answer_clicked(e):
     form = e.target.form
     form_data = {
-        element.name: element.value 
-        for element in form.elements 
+        element.name: element.value
+        for element in form.elements
         if element.name
     }
-    
-    print(f"Form data: {form_data}")
+
+    # print(f"Form data: {form_data}")
     store.dispatch({
         "type": "SUBMIT_ANSWER",
         "data": form_data
